@@ -1,0 +1,28 @@
+meta {
+  name: 422 - falta criteria en choice
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/v1/systemone
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{apiKey}}
+}
+
+body:json {
+  {
+    "state": "hola",
+    "questions": {
+      "x": {"type": "choice", "instructions": "a"}
+    }
+  }
+}
+
+assert {
+  res.status: eq 422
+}

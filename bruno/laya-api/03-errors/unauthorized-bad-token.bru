@@ -1,0 +1,28 @@
+meta {
+  name: 401 - token invalido (requiere LAYA_API_KEY activa en el server)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/v1/systemone
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: token-incorrecto
+}
+
+body:json {
+  {
+    "state": "hola",
+    "questions": {
+      "x": {"type": "noul", "instructions": "a"}
+    }
+  }
+}
+
+assert {
+  res.status: eq 401
+}

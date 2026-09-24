@@ -1,0 +1,51 @@
+meta {
+  name: systemone - multiples preguntas (choice+score+noul)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/v1/systemone
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{apiKey}}
+}
+
+body:json {
+  {
+    "state": {
+      "body": "We were billed twice for March. Please refund it today.",
+      "from": "user@example.com",
+      "subject": "Duplicate charge on invoice #4411"
+    },
+    "questions": {
+      "department": {
+        "type": "choice",
+        "instructions": "Which department should handle this?",
+        "criteria": {
+          "billing": "invoices, payments, refunds",
+          "technical": "bugs, outages, system errors",
+          "other": "everything else"
+        }
+      },
+      "urgency": {
+        "type": "score",
+        "instructions": "How urgent is this?",
+        "criteria": ["not urgent", "soon", "critical"]
+      },
+      "churn_risk": {
+        "type": "noul",
+        "instructions": "Does the user threaten to cancel or leave?"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.usage.input_tokens: isDefined
+  res.body.routing.model: isDefined
+}

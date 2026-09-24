@@ -1,0 +1,33 @@
+meta {
+  name: systemone - sentimiento (ejemplo de deteccion semantica)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/v1/systemone
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{apiKey}}
+}
+
+body:json {
+  {
+    "state": "This is broken and I want a refund now.",
+    "questions": {
+      "sentiment": {
+        "type": "choice",
+        "instructions": "What is the sentiment?",
+        "criteria": {"positive": "happy", "negative": "unhappy"}
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.answers.sentiment.choice: eq negative
+}

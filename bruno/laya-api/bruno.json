@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Laya API (real)",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

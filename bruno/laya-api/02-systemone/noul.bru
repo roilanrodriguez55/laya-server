@@ -1,0 +1,32 @@
+meta {
+  name: systemone - noul
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/v1/systemone
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{apiKey}}
+}
+
+body:json {
+  {
+    "state": "We were billed twice for March. Please refund it today or we cancel.",
+    "questions": {
+      "churn_risk": {
+        "type": "noul",
+        "instructions": "Does the user threaten to cancel or leave?"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.answers.churn_risk.noul: isDefined
+}

@@ -1,0 +1,36 @@
+meta {
+  name: systemone - texto en espanol (ruteo automatico a multilingual)
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/v1/systemone
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{apiKey}}
+}
+
+body:json {
+  {
+    "state": "Nos cobraron dos veces en marzo, necesitamos el reembolso hoy o cancelamos.",
+    "questions": {
+      "departamento": {
+        "type": "choice",
+        "instructions": "Que departamento debe atender esto?",
+        "criteria": {
+          "facturacion": "facturas, pagos, reembolsos",
+          "tecnico": "errores, bugs"
+        }
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.routing.model: eq multilingual
+}

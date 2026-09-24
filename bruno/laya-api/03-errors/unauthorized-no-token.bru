@@ -1,0 +1,24 @@
+meta {
+  name: 401 - sin token (requiere LAYA_API_KEY activa en el server)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/v1/systemone
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "state": "hola",
+    "questions": {
+      "x": {"type": "noul", "instructions": "a"}
+    }
+  }
+}
+
+assert {
+  res.status: eq 401
+}

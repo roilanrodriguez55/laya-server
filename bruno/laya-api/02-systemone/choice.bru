@@ -1,0 +1,37 @@
+meta {
+  name: systemone - choice
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/systemone
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{apiKey}}
+}
+
+body:json {
+  {
+    "state": {"body": "We were billed twice for March. Please refund it today or we cancel."},
+    "questions": {
+      "department": {
+        "type": "choice",
+        "instructions": "Which department should handle this?",
+        "criteria": {
+          "billing": "invoices, payments, refunds",
+          "technical": "bugs, outages, system errors",
+          "other": "everything else"
+        }
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.answers.department.choice: isDefined
+}

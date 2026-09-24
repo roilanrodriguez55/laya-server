@@ -1,0 +1,28 @@
+meta {
+  name: 422 - tipo de pregunta desconocido
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/systemone
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{apiKey}}
+}
+
+body:json {
+  {
+    "state": "hola",
+    "questions": {
+      "x": {"type": "bogus", "instructions": "a"}
+    }
+  }
+}
+
+assert {
+  res.status: eq 422
+}

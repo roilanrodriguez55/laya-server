@@ -1,0 +1,23 @@
+meta {
+  name: 400 - body sin campo questions
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/systemone
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{apiKey}}
+}
+
+body:json {
+  {}
+}
+
+assert {
+  res.status: eq 400
+}
